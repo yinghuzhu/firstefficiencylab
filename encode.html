@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Encoder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        .logo-container a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+        .logo-container h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        .output-container {
+            margin-top: 20px;
+        }
+        .output-value {
+            word-break: break-all;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group input {
+            padding: 5px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.jpg" alt="First Efficiency Lab Logo">
+                <h1>First Efficiency Lab</h1>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <h1>String Encoder/Decoder</h1>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Base64')" id="defaultOpen">Base64</button>
+            <button class="tablinks" onclick="openTab(event, 'DES')">DES</button>
+            <button class="tablinks" onclick="openTab(event, 'MD5')">MD5</button>
+            <button class="tablinks" onclick="openTab(event, 'SHA256')">SHA-256</button>
+            <button class="tablinks" onclick="openTab(event, 'SHA512')">SHA-512</button>
+        </div>
+
+        <div id="Base64" class="tabcontent">
+            <h3>Base64 Encode/Decode</h3>
+            <textarea id="base64Input" placeholder="Enter text..."></textarea>
+            <button onclick="encodeBase64()">Encode</button>
+            <button onclick="decodeBase64()">Decode</button>
+            <div id="base64Output" class="output-value"></div>
+        </div>
+
+        <div id="DES" class="tabcontent">
+            <h3>DES Encryption/Decryption</h3>
+            <textarea id="desInput" placeholder="Enter text..."></textarea>
+            <div class="input-group">
+                <label for="desKey">Key:</label>
+                <input type="text" id="desKey" placeholder="Enter encryption key">
+            </div>
+            <button onclick="encryptDES()">Encrypt</button>
+            <button onclick="decryptDES()">Decrypt</button>
+            <div id="desOutput" class="output-value"></div>
+        </div>
+
+        <div id="MD5" class="tabcontent">
+            <h3>MD5 Hash</h3>
+            <textarea id="md5Input" placeholder="Enter text..."></textarea>
+            <button onclick="hashMD5()">Generate Hash</button>
+            <div id="md5Output" class="output-value"></div>
+        </div>
+
+        <div id="SHA256" class="tabcontent">
+            <h3>SHA-256 Hash</h3>
+            <textarea id="sha256Input" placeholder="Enter text..."></textarea>
+            <button onclick="hashSHA256()">Generate Hash</button>
+            <div id="sha256Output" class="output-value"></div>
+        </div>
+
+        <div id="SHA512" class="tabcontent">
+            <h3>SHA-512 Hash</h3>
+            <textarea id="sha512Input" placeholder="Enter text..."></textarea>
+            <button onclick="hashSHA512()">Generate Hash</button>
+            <div id="sha512Output" class="output-value"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="copyright">
+            © First Efficiency Lab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Open Base64 tab by default
+        document.getElementById("defaultOpen").click();
+
+        function encodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            document.getElementById('base64Output').textContent = btoa(input);
+        }
+
+        function decodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            try {
+                document.getElementById('base64Output').textContent = atob(input);
+            } catch (e) {
+                document.getElementById('base64Output').textContent = "Invalid Base64 input";
+            }
+        }
+
+        function encryptDES() {
+            const input = document.getElementById('desInput').value;
+            const key = document.getElementById('desKey').value || 'default key';
+            const encrypted = CryptoJS.DES.encrypt(input, key);
+            document.getElementById('desOutput').textContent = encrypted.toString();
+        }
+
+        function decryptDES() {
+            const input = document.getElementById('desInput').value;
+            const key = document.getElementById('desKey').value || 'default key';
+            try {
+                const decrypted = CryptoJS.DES.decrypt(input, key);
+                document.getElementById('desOutput').textContent = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) {
+                document.getElementById('desOutput').textContent = "Invalid input or key";
+            }
+        }
+
+        function hashMD5() {
+            const input = document.getElementById('md5Input').value;
+            document.getElementById('md5Output').textContent = CryptoJS.MD5(input).toString();
+        }
+
+        function hashSHA256() {
+            const input = document.getElementById('sha256Input').value;
+            document.getElementById('sha256Output').textContent = CryptoJS.SHA256(input).toString();
+        }
+
+        function hashSHA512() {
+            const input = document.getElementById('sha512Input').value;
+            document.getElementById('sha512Output').textContent = CryptoJS.SHA512(input).toString();
+        }
+    </script>
+</body>
+</html>

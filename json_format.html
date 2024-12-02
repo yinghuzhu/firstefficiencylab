@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        .logo-container a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+        .logo-container h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            gap: 20px;
+        }
+        .container > div {
+            flex: 1;
+            width: 50%;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 10px;
+            font-family: monospace;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.jpg" alt="First Efficiency Lab Logo">
+                <h1>First Efficiency Lab</h1>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <h1>JSON Formatter</h1>
+        <div class="container">
+            <div>
+                <h3>Input JSON:</h3>
+                <textarea id="inputJson" placeholder="Paste your JSON here..."></textarea>
+            </div>
+            <div>
+                <h3>Formatted JSON:</h3>
+                <textarea id="outputJson" readonly></textarea>
+            </div>
+        </div>
+        <button onclick="formatJSON()">Format JSON</button>
+        <div id="errorMsg" class="error"></div>
+    </main>
+
+    <footer>
+        <div class="copyright">
+            © First Efficiency Lab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function formatJSON() {
+            const inputElement = document.getElementById('inputJson');
+            const outputElement = document.getElementById('outputJson');
+            const errorElement = document.getElementById('errorMsg');
+            
+            try {
+                // Clear previous error messages
+                errorElement.textContent = '';
+                
+                // Parse and stringify with indentation
+                const parsed = JSON.parse(inputElement.value);
+                const formatted = JSON.stringify(parsed, null, 2);
+                
+                // Display formatted JSON
+                outputElement.value = formatted;
+            } catch (error) {
+                // Display error message if JSON is invalid
+                errorElement.textContent = 'Invalid JSON: ' + error.message;
+                outputElement.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
