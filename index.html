@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Efficiency Lab</title>
+    <title>First Efficiency Lab - Free Online Tools</title>
+    <meta name="description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more. Make your work more efficient.">
+    <meta name="keywords" content="online tools, efficiency tools, developer tools, productivity tools, json formatter, base64 encoder, des encryption, md5 hash">
+    <meta property="og:title" content="First Efficiency Lab - Free Online Tools">
+    <meta property="og:description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more. Make your work more efficient.">
+    <meta property="og:image" content="logo.jpg">
+    <meta property="og:url" content="https://firstefficiencylab.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="First Efficiency Lab - Free Online Tools">
+    <meta name="twitter:description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more.">
+    <meta name="twitter:image" content="logo.jpg">
+    <link rel="icon" type="image/jpeg" sizes="927x937" href="logo.jpg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +65,8 @@
             margin-right: auto;
         }
         .links a {
-            display: block;
+            display: flex;
+            align-items: center;
             margin: 10px 0;
             padding: 15px;
             text-decoration: none;
@@ -65,11 +78,31 @@
         .links a:hover {
             background-color: #e0e0e0;
         }
+        .links p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .links div {
+            margin-bottom: 15px;
+        }
         footer {
             background-color: #f8f9fa;
             padding: 1rem;
             text-align: center;
             border-top: 1px solid #e9ecef;
+        }
+        .tool-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        .tool-content {
+            flex: 1;
+        }
+        .tool-title {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -78,15 +111,30 @@
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo.jpg" alt="First Efficiency Lab Logo">
-                <h1>First Efficiency Lab</h1>
             </a>
         </div>
     </header>
 
     <main>
         <div class="links">
-            <a href="encode.html">String Encoder/Decoder</a>
-            <a href="json_format.html">JSON Formatter</a>
+            <div>
+                <a href="json_format.html">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="json">
+                    <div class="tool-content">
+                        <div class="tool-title">JSON Formatter</div>
+                        <p>Format and validate your JSON data with proper indentation and structure. Makes JSON data more readable and helps identify syntax errors.</p>
+                    </div>
+                </a>
+            </div>
+            <div></div>
+                <a href="encode.html">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Encoder">
+                    <div class="tool-content">
+                        <div class="tool-title">Encoder/Decoder</div>
+                        <p>A versatile tool for encoding and decoding text using various algorithms including Base64, DES encryption, MD5, SHA-256, and SHA-512 hashing.</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </main>
 
