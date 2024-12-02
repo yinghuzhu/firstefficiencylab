@@ -95,10 +95,13 @@
         }
         textarea {
             width: 100%;
-            height: 100px;
+            height: 400px;
             padding: 10px;
             margin-bottom: 10px;
             font-family: monospace;
+        }
+        #md5Input, #sha256Input, #sha512Input {
+            height: 200px;
         }
         .output-container {
             margin-top: 20px;
@@ -117,6 +120,35 @@
             padding: 5px;
             margin-left: 10px;
         }
+        .flex-container {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            height: 450px;
+        }
+        .flex-container > div {
+            flex: 2;
+        }
+        .flex-container > .button-container {
+            flex: 0.5;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -129,7 +161,6 @@
     </header>
 
     <main>
-
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Base64')" id="defaultOpen">Base64</button>
             <button class="tablinks" onclick="openTab(event, 'DES')">DES</button>
@@ -140,22 +171,38 @@
 
         <div id="Base64" class="tabcontent">
             <h3>Base64 Encode/Decode</h3>
-            <textarea id="base64Input" placeholder="Enter text..."></textarea>
-            <button onclick="encodeBase64()">Encode</button>
-            <button onclick="decodeBase64()">Decode</button>
-            <div id="base64Output" class="output-value"></div>
+            <div class="flex-container">
+                <div>
+                    <textarea id="base64Left" placeholder="Enter text to encode..."></textarea>
+                </div>
+                <div class="button-container">
+                    <button onclick="base64EncodeLeftToRight()">→ Encode →</button>
+                    <button onclick="base64DecodeRightToLeft()">← Decode ←</button>
+                </div>
+                <div>
+                    <textarea id="base64Right" placeholder="Enter text to decode..."></textarea>
+                </div>
+            </div>
         </div>
 
         <div id="DES" class="tabcontent">
             <h3>DES Encryption/Decryption</h3>
-            <textarea id="desInput" placeholder="Enter text..."></textarea>
             <div class="input-group">
                 <label for="desKey">Key:</label>
                 <input type="text" id="desKey" placeholder="Enter encryption key">
             </div>
-            <button onclick="encryptDES()">Encrypt</button>
-            <button onclick="decryptDES()">Decrypt</button>
-            <div id="desOutput" class="output-value"></div>
+            <div class="flex-container">
+                <div>
+                    <textarea id="desLeft" placeholder="Enter text to encrypt..."></textarea>
+                </div>
+                <div class="button-container">
+                    <button onclick="desEncryptLeftToRight()">→ Encrypt →</button>
+                    <button onclick="desDecryptRightToLeft()">← Decrypt ←</button>
+                </div>
+                <div>
+                    <textarea id="desRight" placeholder="Enter text to decrypt..."></textarea>
+                </div>
+            </div>
         </div>
 
         <div id="MD5" class="tabcontent">
@@ -204,35 +251,35 @@
         // Open Base64 tab by default
         document.getElementById("defaultOpen").click();
 
-        function encodeBase64() {
-            const input = document.getElementById('base64Input').value;
-            document.getElementById('base64Output').textContent = btoa(input);
+        function base64EncodeLeftToRight() {
+            const input = document.getElementById('base64Left').value;
+            document.getElementById('base64Right').value = btoa(input);
         }
 
-        function decodeBase64() {
-            const input = document.getElementById('base64Input').value;
+        function base64DecodeRightToLeft() {
+            const input = document.getElementById('base64Right').value;
             try {
-                document.getElementById('base64Output').textContent = atob(input);
+                document.getElementById('base64Left').value = atob(input);
             } catch (e) {
-                document.getElementById('base64Output').textContent = "Invalid Base64 input";
+                document.getElementById('base64Left').value = "Invalid Base64 input";
             }
         }
 
-        function encryptDES() {
-            const input = document.getElementById('desInput').value;
+        function desEncryptLeftToRight() {
+            const input = document.getElementById('desLeft').value;
             const key = document.getElementById('desKey').value || 'default key';
             const encrypted = CryptoJS.DES.encrypt(input, key);
-            document.getElementById('desOutput').textContent = encrypted.toString();
+            document.getElementById('desRight').value = encrypted.toString();
         }
 
-        function decryptDES() {
-            const input = document.getElementById('desInput').value;
+        function desDecryptRightToLeft() {
+            const input = document.getElementById('desRight').value;
             const key = document.getElementById('desKey').value || 'default key';
             try {
                 const decrypted = CryptoJS.DES.decrypt(input, key);
-                document.getElementById('desOutput').textContent = decrypted.toString(CryptoJS.enc.Utf8);
+                document.getElementById('desLeft').value = decrypted.toString(CryptoJS.enc.Utf8);
             } catch (e) {
-                document.getElementById('desOutput').textContent = "Invalid input or key";
+                document.getElementById('desLeft').value = "Invalid input or key";
             }
         }
 

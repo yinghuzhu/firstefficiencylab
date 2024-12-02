@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter - First Efficiency Lab</title>
+    <meta name="description" content="Free online Unix timestamp converter tool. Convert between Unix timestamps and human readable dates. Easy to use with instant results.">
+    <meta name="keywords" content="unix timestamp converter, timestamp to date, date to timestamp, epoch converter, unix time converter">
+    
+    <meta property="og:title" content="Unix Timestamp Converter - First Efficiency Lab">
+    <meta property="og:description" content="Free online Unix timestamp converter tool. Convert between Unix timestamps and human readable dates.">
+    <meta property="og:image" content="logo.jpg">
+    <meta property="og:url" content="https://firstefficiencylab.com/timestamp.html">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unix Timestamp Converter - First Efficiency Lab">
+    <meta name="twitter:description" content="Free online Unix timestamp converter tool. Convert between Unix timestamps and human readable dates.">
+    <meta name="twitter:image" content="logo.jpg">
+    
+    <link rel="icon" type="image/jpeg" sizes="927x937" href="logo.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        .logo-container a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .converter-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .input-group {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        input {
+            padding: 8px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .current-time {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin: 0 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .copy-button {
+            padding: 4px 8px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .milliseconds-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .readable-time {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.jpg" alt="First Efficiency Lab Logo">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="milliseconds-toggle">
+            Show Milliseconds: 
+            <label class="switch">
+                <input type="checkbox" id="showMilliseconds" onchange="updateTimestampDisplay()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="current-time">
+            Current Unix Timestamp: <span id="currentTimestamp"></span>
+            <button class="copy-button" onclick="copyCurrentTimestamp()">Copy</button>
+        </div>
+
+        <div class="converter-section">
+            <h3>Timestamp to Date</h3>
+            <div class="input-group">
+                <input type="number" id="timestamp" placeholder="Enter Unix timestamp" step="0.001" onpaste="setTimeout(convertTimestampToDate, 0)">
+                <button onclick="convertTimestampToDate()">Convert</button>
+            </div>
+            <div class="result" id="dateResult"></div>
+        </div>
+
+        <div class="converter-section">
+            <h3>Date to Timestamp</h3>
+            <div class="input-group">
+                <input type="datetime-local" id="datetime" step="0.001">
+                <button onclick="convertDateToTimestamp()">Convert</button>
+            </div>
+            <div class="result" id="timestampResult"></div>
+        </div>
+
+        <div class="readable-time">
+            Current Time: <span id="readableTime"></span>
+        </div>
+    </main>
+
+    <footer>
+        <div class="copyright">
+            © First Efficiency Lab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function updateTimestampDisplay() {
+            const showMilliseconds = document.getElementById('showMilliseconds').checked;
+            const now = Date.now();
+            document.getElementById('currentTimestamp').textContent = showMilliseconds ? now : Math.floor(now / 1000);
+            
+            // Update readable time
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            let readableTime = new Date().toLocaleString(undefined, options);
+            if (showMilliseconds) {
+                const ms = String(new Date().getMilliseconds()).padStart(3, '0');
+                readableTime += `.${ms}`;
+            }
+            document.getElementById('readableTime').textContent = readableTime;
+        }
+
+        function copyCurrentTimestamp() {
+            const timestamp = document.getElementById('currentTimestamp').textContent;
+            navigator.clipboard.writeText(timestamp).then(() => {
+                const button = document.querySelector('.copy-button');
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 1000);
+            });
+        }
+
+        setInterval(updateTimestampDisplay, 100);
+        updateTimestampDisplay();
+
+        function convertTimestampToDate() {
+            const showMilliseconds = document.getElementById('showMilliseconds').checked;
+            const timestamp = document.getElementById('timestamp').value;
+            try {
+                let timestampMs;
+                if (showMilliseconds) {
+                    timestampMs = Number(timestamp);
+                } else {
+                    // When milliseconds are not shown, input is in seconds
+                    timestampMs = Number(timestamp) * 1000;
+                }
+                const date = new Date(timestampMs);
+                if (isNaN(date)) throw new Error('Invalid timestamp');
+                const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                };
+                let result = date.toLocaleString(undefined, options);
+                if (showMilliseconds) {
+                    const ms = String(date.getMilliseconds()).padStart(3, '0');
+                    result += `.${ms}`;
+                }
+                document.getElementById('dateResult').textContent = result;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('dateResult').textContent = 'Invalid timestamp';
+            }
+        }
+
+        function convertDateToTimestamp() {
+            const datetime = document.getElementById('datetime').value;
+            try {
+                const timestamp = new Date(datetime).getTime();
+                if (isNaN(timestamp)) throw new Error('Invalid date');
+                const showMilliseconds = document.getElementById('showMilliseconds').checked;
+                document.getElementById('timestampResult').textContent = showMilliseconds ? timestamp : Math.floor(timestamp / 1000);
+            } catch (error) {
+                document.getElementById('timestampResult').textContent = 'Invalid date';
+            }
+        }
+    </script>
+</body>
+</html>

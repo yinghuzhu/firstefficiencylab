@@ -90,6 +90,34 @@
             color: red;
             margin-top: 10px;
         }
+        .json-line {
+            cursor: pointer;
+            white-space: pre;
+        }
+        .json-line.collapsed::before {
+            content: '+ ';
+        }
+        .json-line.expanded::before {
+            content: '- ';
+        }
+        .json-line.hidden {
+            display: none;
+        }
+        .json-key {
+            color: #b60593; /* 雪青色 */
+        }
+        .json-string {
+            color: #008000; /* 绿色 */
+        }
+        .json-number {
+            color: #0000FF; /* 蓝色 */
+        }
+        .json-boolean {
+            color: #FFA500; /* 橙色 */
+        }
+        .json-null {
+            color: #808080; /* 灰色 */
+        }
     </style>
 </head>
 <body>
@@ -109,10 +137,9 @@
             </div>
             <div>
                 <h3>Formatted JSON:</h3>
-                <textarea id="outputJson" readonly></textarea>
+                <div id="outputJson" style="background: white; border: 1px solid #ccc; padding: 10px; height: 400px; overflow: auto;"></div>
             </div>
         </div>
-        <button onclick="formatJSON()">Format JSON</button>
         <div id="errorMsg" class="error"></div>
     </main>
 
@@ -129,21 +156,97 @@
             const errorElement = document.getElementById('errorMsg');
             
             try {
-                // Clear previous error messages
+                // Clear previous error messages and output
                 errorElement.textContent = '';
+                outputElement.innerHTML = '';
                 
-                // Parse and stringify with indentation
+                // Parse JSON
                 const parsed = JSON.parse(inputElement.value);
-                const formatted = JSON.stringify(parsed, null, 2);
                 
-                // Display formatted JSON
-                outputElement.value = formatted;
+                // Convert to formatted HTML with collapsible sections
+                const lines = JSON.stringify(parsed, null, 2).split('\n');
+                let indentLevel = 0;
+                
+                lines.forEach((line, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'json-line';
+                    
+                    // Color format the line
+                    if (line.includes(':')) {
+                        const parts = line.split(':');
+                        const key = parts[0];
+                        const value = parts.slice(1).join(':').trim();
+                        
+                        let valueClass = 'json-string';
+                        // Determine value type and assign appropriate class
+                        if (value.startsWith('"') && value.endsWith('"')) {
+                            valueClass = 'json-string';
+                        } else if (!isNaN(value)) {
+                            valueClass = 'json-number';
+                        } else if (value === 'true' || value === 'false') {
+                            valueClass = 'json-boolean';
+                        } else if (value === 'null') {
+                            valueClass = 'json-null';
+                        }
+                        
+                        div.innerHTML = `<span class="json-key">${key}:</span><span class="${valueClass}">${value}</span>`;
+                    } else {
+                        div.textContent = line;
+                    }
+                    
+                    // Check if line contains object/array opening
+                    if (line.includes('{') || line.includes('[')) {
+                        div.classList.add('expanded');
+                        div.dataset.level = indentLevel;
+                        div.onclick = toggleCollapse;
+                        indentLevel++;
+                    }
+                    // Check if line contains object/array closing
+                    else if (line.includes('}') || line.includes(']')) {
+                        indentLevel--;
+                        div.dataset.level = indentLevel;
+                    }
+                    else {
+                        div.dataset.level = indentLevel;
+                    }
+                    
+                    outputElement.appendChild(div);
+                });
             } catch (error) {
                 // Display error message if JSON is invalid
                 errorElement.textContent = 'Invalid JSON: ' + error.message;
-                outputElement.value = '';
+                outputElement.innerHTML = '';
             }
         }
+
+        function toggleCollapse(event) {
+            const clickedLine = event.target.closest('.json-line');
+            const level = parseInt(clickedLine.dataset.level);
+            const isExpanded = clickedLine.classList.contains('expanded');
+            
+            // Toggle between expanded and collapsed states
+            if (isExpanded) {
+                clickedLine.classList.remove('expanded');
+                clickedLine.classList.add('collapsed');
+            } else {
+                clickedLine.classList.remove('collapsed');
+                clickedLine.classList.add('expanded');
+            }
+            
+            // Find all subsequent lines until we reach a line at the same or lower level
+            let nextElement = clickedLine.nextElementSibling;
+            while (nextElement && parseInt(nextElement.dataset.level) > level) {
+                if (isExpanded) {
+                    nextElement.classList.add('hidden');
+                } else {
+                    nextElement.classList.remove('hidden');
+                }
+                nextElement = nextElement.nextElementSibling;
+            }
+        }
+
+        // Add input event listener to format JSON as user types
+        document.getElementById('inputJson').addEventListener('input', formatJSON);
     </script>
 </body>
 </html>
