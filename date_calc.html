@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculator - First Efficiency Lab</title>
+    <meta name="description" content="Free online date calculator tool. Calculate the difference between two dates and find a date after or before a given number of days.">
+    <meta name="keywords" content="date calculator, date difference, add days to date, subtract days from date">
+    
+    <meta property="og:title" content="Date Calculator - First Efficiency Lab">
+    <meta property="og:description" content="Free online date calculator tool. Calculate the difference between two dates and find a date after or before a given number of days.">
+    <meta property="og:image" content="logo.jpg">
+    <meta property="og:url" content="https://firstefficiencylab.com/date_calc.html">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Date Calculator - First Efficiency Lab">
+    <meta name="twitter:description" content="Free online date calculator tool. Calculate the difference between two dates and find a date after or before a given number of days.">
+    <meta name="twitter:image" content="logo.jpg">
+    
+    <link rel="icon" type="image/jpeg" sizes="927x937" href="logo.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        .logo-container a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .converter-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .input-group {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        input {
+            padding: 8px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.jpg" alt="First Efficiency Lab Logo">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="converter-section">
+            <h3>Calculate Days Between Two Dates</h3>
+            <div class="input-group">
+                <input type="date" id="startDate">
+                <input type="date" id="endDate">
+                <button onclick="calculateDateDifference()">Calculate</button>
+            </div>
+            <div class="result" id="dateDifferenceResult"></div>
+        </div>
+
+        <div class="converter-section">
+            <h3>Calculate Date After/Before Given Days</h3>
+            <div class="input-group">
+                <input type="date" id="baseDate">
+                <input type="number" id="daysToAdd" placeholder="Days to add/subtract">
+                <button onclick="calculateNewDate()">Calculate</button>
+            </div>
+            <div class="result" id="newDateResult"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="copyright">
+            © First Efficiency Lab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function calculateDateDifference() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const timeDiff = Math.abs(endDate - startDate);
+            const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            document.getElementById('dateDifferenceResult').textContent = `Difference: ${dayDiff} days`;
+        }
+
+        function calculateNewDate() {
+            const baseDate = new Date(document.getElementById('baseDate').value);
+            const daysToAdd = parseInt(document.getElementById('daysToAdd').value, 10);
+            if (!isNaN(daysToAdd)) {
+                baseDate.setDate(baseDate.getDate() + daysToAdd);
+                document.getElementById('newDateResult').textContent = `New Date: ${baseDate.toLocaleDateString()}`;
+            } else {
+                document.getElementById('newDateResult').textContent = 'Please enter a valid number of days.';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Efficiency Lab - Free Online Tools</title>
-    <meta name="description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more. Make your work more efficient.">
-    <meta name="keywords" content="online tools, efficiency tools, developer tools, productivity tools, json formatter, base64 encoder, des encryption, md5 hash">
-    <meta property="og:title" content="First Efficiency Lab - Free Online Tools">
-    <meta property="og:description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more. Make your work more efficient.">
+    <title>First Efficiency Lab - Free Online Tools for Productivity</title>
+    <meta name="description" content="Discover free online tools to enhance your work efficiency, including developer tools, text processing tools, and more. Improve your productivity with our easy-to-use tools.">
+    <meta name="keywords" content="online tools, efficiency tools, developer tools, productivity tools, JSON formatter, Base64 encoder, DES encryption, MD5 hash, timestamp converter, date calculator, YAML JSON converter">
+    <meta property="og:title" content="First Efficiency Lab - Free Online Tools for Productivity">
+    <meta property="og:description" content="Explore our free online tools designed to improve your work efficiency, including developer tools, text processing tools, and more.">
     <meta property="og:image" content="logo.jpg">
     <meta property="og:url" content="https://firstefficiencylab.com">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="First Efficiency Lab - Free Online Tools">
-    <meta name="twitter:description" content="Free online tools to improve your work efficiency, including developer tools, text processing tools, and more.">
+    <meta name="twitter:title" content="First Efficiency Lab - Free Online Tools for Productivity">
+    <meta name="twitter:description" content="Utilize our free online tools to enhance your work efficiency, including developer tools, text processing tools, and more.">
     <meta name="twitter:image" content="logo.jpg">
     <link rel="icon" type="image/jpeg" sizes="927x937" href="logo.jpg">
     <style>
@@ -60,14 +60,16 @@
         }
         .links {
             margin-top: 20px;
-            max-width: 600px;
+            max-width: 800px; /* Increased width for two columns */
             margin-left: auto;
             margin-right: auto;
+            display: grid; /* Use grid layout */
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 20px; /* Space between items */
         }
         .links a {
             display: flex;
             align-items: center;
-            margin: 10px 0;
             padding: 15px;
             text-decoration: none;
             color: #333;
@@ -82,9 +84,6 @@
             margin: 5px 0 0 0;
             color: #666;
             font-size: 0.9rem;
-        }
-        .links div {
-            margin-bottom: 15px;
         }
         footer {
             background-color: #f8f9fa;
@@ -118,8 +117,17 @@
     <main>
         <div class="links">
             <div>
+                <a href="date_calc.html">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Date Calculator">
+                    <div class="tool-content">
+                        <div class="tool-title">Date Calculator</div>
+                        <p>Calculate the difference between two dates, add or subtract days, and find specific dates easily.</p>
+                    </div>
+                </a>
+            </div>
+            <div>
                 <a href="json_format.html">
-                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="json">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="JSON Formatter">
                     <div class="tool-content">
                         <div class="tool-title">JSON Formatter</div>
                         <p>Format and validate your JSON data with proper indentation and structure. Makes JSON data more readable and helps identify syntax errors.</p>
@@ -128,7 +136,7 @@
             </div>
             <div>
                 <a href="encode.html">
-                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Encoder">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Encoder/Decoder">
                     <div class="tool-content">
                         <div class="tool-title">Encoder/Decoder</div>
                         <p>A versatile tool for encoding and decoding text using various algorithms including Base64, DES encryption, MD5, SHA-256, and SHA-512 hashing.</p>
@@ -137,7 +145,7 @@
             </div>
             <div>
                 <a href="timestamp.html">
-                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Timestamp">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="Unix Timestamp Converter">
                     <div class="tool-content">
                         <div class="tool-title">Unix Timestamp Converter</div>
                         <p>Convert between Unix timestamps and human readable dates. Easy to use with instant results.</p>
@@ -146,7 +154,7 @@
             </div>
             <div>
                 <a href="yaml_json.html">
-                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="YAML/JSON">
+                    <img class="tool-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="48" height="48" alt="YAML/JSON Converter">
                     <div class="tool-content">
                         <div class="tool-title">YAML/JSON Converter</div>
                         <p>Convert between YAML and JSON formats, format with proper indentation and validate syntax. Easy to use with instant results.</p>
