@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online YAML to JSON Converter - First Efficiency Lab</title>
+    <meta name="description" content="Free online YAML to JSON converter tool. Convert YAML to JSON and JSON to YAML with ease. Easy to use with instant results.">
+    <meta name="keywords" content="yaml to json, json to yaml, yaml converter, json converter, yaml tools, json tools">
+    
+    <meta property="og:title" content="Free Online YAML to JSON Converter - First Efficiency Lab">
+    <meta property="og:description" content="Free online YAML to JSON converter tool. Convert YAML to JSON and JSON to YAML with ease.">
+    <meta property="og:image" content="logo.jpg">
+    <meta property="og:url" content="https://firstefficiencylab.com/yaml_json_converter.html">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Online YAML to JSON Converter - First Efficiency Lab">
+    <meta name="twitter:description" content="Free online YAML to JSON converter tool. Convert YAML to JSON and JSON to YAML with ease.">
+    <meta name="twitter:image" content="logo.jpg">
+    
+    <link rel="icon" type="image/jpeg" sizes="927x937" href="logo.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        .logo-container a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+        .logo-container h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            gap: 20px;
+        }
+        .container > div {
+            flex: 1;
+            width: 50%;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 10px;
+            font-family: monospace;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        /* Adjusting input box widths and positions */
+        .container > div:first-child {
+            width: 60%; /* Increase width of left input box */
+        }
+        .container > div:last-child {
+            width: 40%; /* Decrease width of right input box */
+            margin-left: auto; /* Move right input box to the right */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.jpg" alt="First Efficiency Lab Logo">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div>
+                <h3>Input YAML:</h3>
+                <textarea id="inputYaml" placeholder="Paste your YAML here..."></textarea>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <button id="yamlToJsonBtn">YAML to JSON &#8594;</button> <!-- Right arrow -->
+                <button id="jsonToYamlBtn">&#8592; JSON to YAML</button> <!-- Left arrow -->
+            </div>
+            <div>
+                <h3>Output JSON:</h3>
+                <textarea id="outputJson" placeholder="JSON will appear here..."></textarea>
+            </div>
+        </div>
+        <div id="errorMsg" class="error"></div>
+    </main>
+
+    <footer>
+        <div class="copyright">
+            © First Efficiency Lab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function yamlToJson() {
+            const inputElement = document.getElementById('inputYaml');
+            const outputElement = document.getElementById('outputJson');
+            const errorElement = document.getElementById('errorMsg');
+            
+            try {
+                // Clear previous error messages and output
+                errorElement.textContent = '';
+                outputElement.value = '';
+                
+                // Parse YAML
+                const parsed = jsyaml.load(inputElement.value);
+                
+                // Convert to JSON
+                const jsonString = JSON.stringify(parsed, null, 2);
+                
+                // Set output
+                outputElement.value = jsonString;
+            } catch (error) {
+                // Display error message if YAML is invalid
+                errorElement.textContent = 'Invalid YAML: ' + error.message;
+                outputElement.value = '';
+            }
+        }
+
+        function jsonToYaml() {
+            const inputElement = document.getElementById('outputJson');
+            const outputElement = document.getElementById('inputYaml');
+            const errorElement = document.getElementById('errorMsg');
+            
+            try {
+                // Clear previous error messages and output
+                errorElement.textContent = '';
+                outputElement.value = '';
+                
+                // Parse JSON
+                const parsed = JSON.parse(inputElement.value);
+                
+                // Convert to YAML
+                const yamlString = jsyaml.dump(parsed);
+                
+                // Set output
+                outputElement.value = yamlString;
+            } catch (error) {
+                // Display error message if JSON is invalid
+                errorElement.textContent = 'Invalid JSON: ' + error.message;
+                outputElement.value = '';
+            }
+        }
+
+        // Add click event listeners to buttons
+        document.getElementById('yamlToJsonBtn').addEventListener('click', yamlToJson);
+        document.getElementById('jsonToYamlBtn').addEventListener('click', jsonToYaml);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</body>
+</html>
